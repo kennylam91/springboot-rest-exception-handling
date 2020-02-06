@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rest.exceptionhandling.ValidationException;
 import com.rest.exceptionhandling.dto.UserDTO;
 
 @RestController
@@ -20,17 +21,21 @@ public class UserController {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 				 produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public UserDTO register(@RequestBody UserDTO userDTO) throws Exception {
+	public UserDTO register(@RequestBody UserDTO userDTO) throws ValidationException {
 		if(userDTO.getPassword().length() < 3) {
-			throw new Exception("password must have more than 3 characters");
+			throw new ValidationException("password","password must have more than 3 characters");
 		}
 		return userDTO;
 	}
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handleAllException(Exception ex){
-		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NO_CONTENT);
 	}
 	
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<Object> handleValidationException(Exception ex){
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	}
 	
 }
