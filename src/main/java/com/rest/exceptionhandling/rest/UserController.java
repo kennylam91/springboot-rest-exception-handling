@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rest.exceptionhandling.BaseController;
 import com.rest.exceptionhandling.ValidationException;
 import com.rest.exceptionhandling.dto.UserDTO;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController extends BaseController {
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 				 produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,14 +29,6 @@ public class UserController {
 		return userDTO;
 	}
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<Object> handleAllException(Exception ex){
-		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NO_CONTENT);
-	}
 	
-	@ExceptionHandler(ValidationException.class)
-	public ResponseEntity<Object> handleValidationException(Exception ex){
-		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-	}
 	
 }

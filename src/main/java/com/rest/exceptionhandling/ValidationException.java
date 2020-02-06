@@ -32,6 +32,13 @@ public class ValidationException extends Exception {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	@Override
+	public String toString() {
+		return "ValidationException [property=" + property + ", message=" + message + "]";
+	}
+	
+	
 	
 	
 }
