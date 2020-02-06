@@ -18,7 +18,10 @@ public class UserController {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 				 produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public UserDTO register(@RequestBody UserDTO userDTO) {
+	public UserDTO register(@RequestBody UserDTO userDTO) throws Exception {
+		if(userDTO.getPassword().length() < 3) {
+			throw new Exception("password must have more than 3 characters");
+		}
 		return userDTO;
 	}
 	
