@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.rest.exceptionhandling.dto.UserDTO;
 
@@ -20,7 +21,7 @@ public class UserController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public UserDTO register(@RequestBody UserDTO userDTO) throws Exception {
 		if(userDTO.getPassword().length() < 3) {
-			throw new Exception("password must have more than 3 characters");
+			throw new ResponseStatusException(HttpStatus.LENGTH_REQUIRED, "password must have more than 3 characters");
 		}
 		return userDTO;
 	}
