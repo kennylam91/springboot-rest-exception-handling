@@ -2,9 +2,6 @@ package com.rest.exceptionhandling;
 
 public class ValidationException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3349544752904508482L;
 
 	private String property;
