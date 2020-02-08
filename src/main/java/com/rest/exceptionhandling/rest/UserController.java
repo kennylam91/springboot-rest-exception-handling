@@ -1,5 +1,7 @@
 package com.rest.exceptionhandling.rest;
 
+import javax.validation.ValidationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,7 @@ public class UserController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public UserDTO register(@RequestBody UserDTO userDTO) throws Exception {
 		if(userDTO.getPassword().length() < 3) {
-			throw new Exception("password must have more than 3 characters");
+			throw new ValidationException("password must have more than 3 characters");
 		}
 		return userDTO;
 	}
