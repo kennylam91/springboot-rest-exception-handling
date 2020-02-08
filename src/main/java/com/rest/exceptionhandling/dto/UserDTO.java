@@ -14,6 +14,9 @@ public class UserDTO implements Serializable{
 	
 	private String password;
 
+	public UserDTO() {
+	}
+
 	public UserDTO(String username, String password) {
 		super();
 		this.username = username;

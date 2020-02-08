@@ -14,9 +14,10 @@ public class ExceptionHandlingApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ExceptionHandlingApplication.class, args);
 	}
-	/*
-	 * @Bean public ObjectMapper objectMapper() { return new
-	 * ObjectMapper().registerModules( new ProblemModule(), new
-	 * ConstraintViolationProblemModule()); }
-	 */
+
+	@Bean
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper().registerModules(new ProblemModule(), new ConstraintViolationProblemModule());
+	}
+
 }
