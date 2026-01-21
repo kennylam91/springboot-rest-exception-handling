@@ -3,8 +3,11 @@ on:
   pull_request:
     branches:
       - '*'
+  push:
+    branches:
+      - '*'
 jobs:
-  licensight:
+  licensight-pr:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,3 +25,19 @@ jobs:
             -at ${{ secrets.LICENSIGHT_ACCESS_TOKEN }} \
             -b ${{ github.head_ref }} \
             -dpr false
+  licensight-default-branch:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Licensight scan for default branch
+        run: |
+          curl -O https://licensight.s3.eu-central-1.amazonaws.com/latest/linux/licensight-scan
+          chmod +x ./licensight-scan
+          ./licensight-scan generate \
+            -d . \
+            -a "${{ vars.LICENSIGHT_APPLICATION_NAME }}" \
+            -e ${{ vars.LICENSIGHT_URL }} \
+            -at ${{ secrets.LICENSIGHT_ACCESS_TOKEN }} \
+            -b ${{ github.ref_name }}
