@@ -1,0 +1,24 @@
+name: licensight-scan
+on:
+  pull_request:
+    branches:
+      - '*'
+jobs:
+  licensight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Licensight scan for the Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -O https://licensight.s3.eu-central-1.amazonaws.com/latest/linux/licensight-scan
+          chmod +x ./licensight-scan
+          ./licensight-scan generate \
+            -d . \
+            -a test-2026 \
+            -e https://licensight-dev.homologation.cloud/ \
+            -at ${{ secrets.LICENSIGHT_ACCESS_TOKEN }} \
+            -b ${{ github.head_ref }} \
+            -dpr false
